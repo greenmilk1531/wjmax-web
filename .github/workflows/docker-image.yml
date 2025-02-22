@@ -4,50 +4,57 @@ on:
   push:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  # 1. 빌드 머신 준비
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 2. 빌드 머신에 Repository Check Out
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Start Actions
         run: echo "Start Actions!"
 
-      # 3. Docker Meta를 이용하여 생성할 이미지의 이름과 버전 정보 태깅 
+      # Dockerfile이 존재하는지 확인하는 단계 추가
+      - name: Check Dockerfile existence
+        run: |
+          echo "Checking if Dockerfile exists..."
+          ls -al
+          if [ ! -f ./Dockerfile ]; then
+            echo "❌ ERROR: Dockerfile not found!"
+            exit 1
+          fi
+
+      # Docker Meta 설정 (태깅 추가)
       - name: Docker meta
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: iDaeun/daeun-portfolio-app
-          tag-semver: |
-            {{version}}
-            {{major}}.{{minor}}
+          tags: |
+            latest
+            ${{ github.sha }}
 
-      # 4. 빌드 머신에 Docker 빌드에 필요한 사항 준비
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # 5. 이미지를 업로드 할 내 도커허브 로그인
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      # 6. 도커 이미지 빌드하고 허브로 푸쉬
-      - name: Build and push
+      # 도커 이미지 빌드 및 푸쉬 (no-cache 추가)
+      - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
+          no-cache: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}
 
