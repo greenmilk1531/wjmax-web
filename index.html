@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ko">
   <head>
+    <meta name="description">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
@@ -68,7 +69,46 @@
 
 
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" style="height: 46px;">
+  <div class="container-fluid">
+  <a class="navbar-brand jua-regular" href="#">WJMAX WEB</a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="검색">검색</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="Release-notes">패치노트</a>
+      </li>
+    </ul>
+    <form class="d-flex" role="search" onsubmit="redirectToSearch(event)">
+      <input id="searchInput rounded-pill" class="form-control me-2 jua-regular" type="search" placeholder="검색어를 입력하여 곡을 찾으세요" aria-label="Search" style="
+    padding-left: 3px;
+    width: 266.818182px;
+">
+
+    </form>
+    
+    <script>
+      function redirectToSearch(event) {
+        event.preventDefault(); // 기본 폼 제출 동작 방지
+        const query = document.getElementById('searchInput').value;
+        if (query) {
+          window.location.href = `https://wjmax.kr/검색/?q=${encodeURIComponent(query)}`;
+        } else {
+          alert('검색어를 입력해주세요!');
+        }
+      }
+    </script>
+    
+  </div>
+  </div>
+  </nav>
+    <!-- 옛날 네비게이션 바
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <ul class="nav">
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="https://wjmax.kr/검색"><p class="jua-regular">WJMAX search</p></a>
@@ -76,12 +116,15 @@
       <li class="nav-item">
         <a class="nav-link active" aria-current="page" href="소개"><p class="jua-regular">웹사이트 소개</p></a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="Release-notes"><p class="jua-regular">패치노트</p></a>
+      </li>
       <li class="nav-item right-align">
         <a class="nav-link active" aria-current="page" href="login">
           <p class="jua-regular">로그인/회원가입</p>
         </a>
       </li>
-    </ul>
+    </ul> -->
 
     <h1 class="jua-regular" style="
       margin-top: 300px;
@@ -99,6 +142,7 @@
     <p>Contact: info@raccoons.o-r.krㅤㅤ</p>
     <a href="https://scarlet-lantern-237.notion.site/WJMAX-WEB-170ba1df4174808ca819e4ef91e0b32c?pvs=74">이용약관ㅤㅤ</a>
     <a href="https://scarlet-lantern-237.notion.site/WJMAX-WEB-170ba1df417480158939c2dd935b9db0?pvs=4">개인정보 처리방침ㅤㅤ</a>
+    <a href="http://wjmax.kr:3001/status/wjmax-web">STATUSㅤㅤ</a>
   </footer>
   </body>
 </html>

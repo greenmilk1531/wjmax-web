@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" href="wjmax.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Release Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        .version {
+            color: #555;
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin-top: 10px;
+        }
+        .bug-fixes {
+            color: #007BFF;
+        }
+        .new-features {
+            color: #28a745;
+        }
+        .improvements {
+            color: #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Release Notes</h1>
+        <p class="version">Version <span id="version-number"></span> - Released on <span id="release-date"></span></p>
+
+        <h2 class="new-features">New Features</h2>
+        <ul id="new-features-list">
+        </ul>
+
+        <h2 class="improvements">Improvements</h2>
+        <ul id="improvements-list">
+        </ul>
+
+        <h2 class="bug-fixes">Bug Fixes</h2>
+        <ul id="bug-fixes-list">
+        </ul>
+    </div>
+
+    <script>
+        fetch('rel.json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('version-number').textContent = data.version;
+                document.getElementById('release-date').textContent = data.releaseDate;
+
+                const newFeaturesList = document.getElementById('new-features-list');
+                data.newFeatures.forEach(feature => {
+                    const li = document.createElement('li');
+                    if (feature.endsWith('.png') || feature.endsWith('.gif')) {
+                        const img = document.createElement('img');
+                        img.src = feature;
+                        li.appendChild(img);
+                    } else {
+                        li.textContent = feature;
+                    }
+                    newFeaturesList.appendChild(li);
+                });
+
+                const improvementsList = document.getElementById('improvements-list');
+                data.improvements.forEach(improvement => {
+                    const li = document.createElement('li');
+                    if (improvement.endsWith('.png') || improvement.endsWith('.gif')) {
+                        const img = document.createElement('img');
+                        img.src = improvement;
+                        li.appendChild(img);
+                    } else {
+                        li.textContent = improvement;
+                    }
+                    improvementsList.appendChild(li);
+                });
+
+                const bugFixesList = document.getElementById('bug-fixes-list');
+                data.bugFixes.forEach(bug => {
+                    const li = document.createElement('li');
+                    if (bug.endsWith('.png') || bug.endsWith('.gif')) {
+                        const img = document.createElement('img');
+                        img.src = bug;
+                        li.appendChild(img);
+                    } else {
+                        li.textContent = bug;
+                    }
+                    bugFixesList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching release notes:', error));
+    </script>
+</body>
+</html>
